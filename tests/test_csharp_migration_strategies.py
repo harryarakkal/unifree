@@ -18,6 +18,9 @@ class CSharpCompilationUnitMigrationStrategyProxy(CSharpCompilationUnitMigration
 class TestCSharpCompilationUnitMigrationStrategy(unittest.TestCase):
     config: Dict
 
+    def test_fail(self):
+        self.assertEqual(1, 2, "Should fail")
+
     def test_source_text(self):
         for source_file_name in ['MalformedShortClass.cs', 'ShortClassWithNamespace.cs']:
             strategy = CSharpCompilationUnitMigrationStrategyProxy(_load_file_migration_spec(source_file_name), self.config)
