@@ -97,7 +97,7 @@ goto Start
 
     goto:eof
 
-:Install_If_Needed
+:Install_And_Activate_Venv_If_Needed
     if exist "%CLONE_DIR%\.installed" (
         echo Project is already installed.
         
@@ -153,7 +153,7 @@ if exist "%SRC_DIR%\.git" (
     set VENV_DIR=!CLONE_DIR!\venv
 )
 
-call :Install_If_Needed
+call :Install_And_Activate_Venv_If_Needed
 
 echo ------------------------------------------------------------
 
