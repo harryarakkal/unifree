@@ -2,7 +2,7 @@
 :: launch.bat
 ::
 
-@REM @echo off
+@echo off
 setlocal enabledelayedexpansion
 
 set "PROJECT_NAME=unifree"
@@ -34,15 +34,15 @@ goto Start
 :Usage
     echo "Usage: launch.bat <openai_api_key> <config_name> <source_directory> <destination_directory>"
     echo "  config_name can be one of: 'godot' 'unreal'."
-    exit /b 0
+    goto:eof
 
 :Check_Empty
     if "%~1"=="" (
-        echo %~2 cannot be empty.
+        echo "%~2 cannot be empty."
         call :Usage
         exit /b 1
     )
-    exit /b 0
+    goto:eof
 
 :Try_Install_Dependencies
     :: Check for git installation
@@ -77,8 +77,7 @@ goto Start
         echo "Once installed, please run this script from the 'Developer Command Prompt for Visual Studio'."
         echo "That command prompt has the needed environment variables for compiling C++ code."
 
-        set %~1=1
-        goto:eof
+        exit /b 1
     )
 
     :: Check for python installation
@@ -117,7 +116,7 @@ goto Start
 :Install_And_Activate_Venv_If_Needed
     if exist "%CLONE_DIR%\.installed" (
         echo "Project is already installed."
-        
+
         cd "%CLONE_DIR%"
         call :Activate_Venv
 
@@ -156,7 +155,7 @@ goto Start
 
 :Start
 
-echo ------------------------------------------------------------
+echo "------------------------------------------------------------"
 
 set "OPENAI_API_KEY=%1"
 set "CONFIG_NAME=%2"
@@ -171,12 +170,12 @@ if exist "%SRC_DIR%\.git" (
 
 call :Install_And_Activate_Venv_If_Needed || exit /b !errorlevel!
 
-echo ------------------------------------------------------------
+echo "------------------------------------------------------------"
 
 :: Exit if no arguments are defined.
 if "%OPENAI_API_KEY%"=="" (
     echo "Installing only, run with launch.bat <openai_api_key> <config_name> <source_directory> <destination_directory>."
-    exit /b 0
+    exit /b
 )
 
 call :Check_Empty %OPENAI_API_KEY% "Argument - Open AI Api Key" || exit /b !errorlevel!
