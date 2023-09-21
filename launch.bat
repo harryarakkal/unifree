@@ -66,18 +66,20 @@ goto Start
     :: Check for C++ build tools. 'cl' is the C++ compiler.
     where cl >nul 2>&1
     if !errorlevel! neq 0 (
-        echo C++ build tools not found.
+        echo "Microsoft C++ build tools not found."
 
         where winget >nul 2>&1
         if !errorlevel! neq 0 (
-            echo Microsoft C++ Build Tools not found.
-            echo If they are installed, please run this script from the "Developer Command Prompt for Visual Studio".
+            echo "Microsoft C++ Build Tools not found."
+            echo "Please install them and try again."
         ) else (
-            echo Installing C++ Build Tools ...
+            echo "Installing Microsoft C++ Build Tools ..."
             winget install Microsoft.VisualStudio.2022.BuildTools --override "--wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
-            echo Please run this script again from the "Developer Command Prompt for Visual Studio".
         )
-        
+
+        echo "Once installed, please run this script from the 'Developer Command Prompt for Visual Studio'."
+        echo "That command prompt has the needed environment variables for compiling C++ code."
+
         set %~1=1
         goto:eof
     )
@@ -119,7 +121,7 @@ goto Start
 :Install_And_Activate_Venv_If_Needed
     if exist "%CLONE_DIR%\.installed" (
         echo Project is already installed.
-        
+
         cd "%CLONE_DIR%"
         call :Activate_Venv
 
