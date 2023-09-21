@@ -163,7 +163,7 @@ set "ORIGIN_DIR=%3"
 set "DEST_DIR=%4"
 
 if exist "%SRC_DIR%\.git" (
-    echo "Source directory is a git repo, assuming source directory is project source."
+    echo "The current directory is a git repo, assuming it is the %PROJECT_NAME% repo."
     set "CLONE_DIR=%SRC_DIR%"
     set "VENV_DIR=!CLONE_DIR!\venv"
 )
@@ -178,9 +178,9 @@ if "%OPENAI_API_KEY%"=="" (
     exit /b 0
 )
 
-call :Check_Empty %OPENAI_API_KEY% "Argument - Open AI Api Key" || exit /b !errorlevel!
-call :Check_Empty %CONFIG_NAME% "Argument - Config Name" || exit /b !errorlevel!
-call :Check_Empty "%ORIGIN_DIR%" "Argument - Origin Directory" || exit /b !errorlevel!
+call :Check_Empty "%OPENAI_API_KEY%" "Argument - Open AI Api Key" || exit /b !errorlevel!
+call :Check_Empty "%CONFIG_NAME%" "Argument - Config Name" || exit /b !errorlevel!
+call :Check_Empty "%ORIGIN_DIR%" "Argument - Source Directory" || exit /b !errorlevel!
 call :Check_Empty "%DEST_DIR%" "Argument - Destination Directory" || exit /b !errorlevel!
 
 :run_main
