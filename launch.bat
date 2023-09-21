@@ -175,13 +175,13 @@ echo "------------------------------------------------------------"
 :: Exit if no arguments are defined.
 if "%OPENAI_API_KEY%"=="" (
     echo "Installing only, run with launch.bat <openai_api_key> <config_name> <source_directory> <destination_directory>."
-    exit /b
+    exit /b 0
 )
 
 call :Check_Empty %OPENAI_API_KEY% "Argument - Open AI Api Key" || exit /b !errorlevel!
 call :Check_Empty %CONFIG_NAME% "Argument - Config Name" || exit /b !errorlevel!
-call :Check_Empty %ORIGIN_DIR% "Argument - Origin Directory" || exit /b !errorlevel!
-call :Check_Empty %DEST_DIR% "Argument - Destination Directory" || exit /b !errorlevel!
+call :Check_Empty "%ORIGIN_DIR%" "Argument - Origin Directory" || exit /b !errorlevel!
+call :Check_Empty "%DEST_DIR%" "Argument - Destination Directory" || exit /b !errorlevel!
 
 :run_main
 
