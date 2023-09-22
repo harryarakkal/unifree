@@ -28,6 +28,4 @@ jobs:
       - name: Test with unittest
         run: |
           # Store output in GITHUB_STEP_SUMMARY for easy reading on Github.com
-          python -m unittest -v $GITHUB_WORKSPACE/tests/*.py &> temp
-          cat temp > $GITHUB_STEP_SUMMARY
-          cat temp
+          python -m unittest -v $GITHUB_WORKSPACE/tests/*.py 2>&1 | tee $GITHUB_STEP_SUMMARY
