@@ -29,3 +29,5 @@ jobs:
         run: |
           # Store output in GITHUB_STEP_SUMMARY for easy reading on Github.com
           python -m unittest -v $GITHUB_WORKSPACE/tests/*.py 2>&1 | tee $GITHUB_STEP_SUMMARY
+          # If python test fails, we want the step to fail.
+          exit ${PIPESTATUS[0]}
