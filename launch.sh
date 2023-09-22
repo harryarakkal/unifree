@@ -35,7 +35,7 @@ setup_defaults()
 
 usage() {
     echo "Usage: ./launch.sh <config_name> <source_directory> <destination_directory>"
-    echo "  config_name can be one of: 'godot','unreal'."
+    echo "  config_name can be one of: ${CONFIG_OPTIONS}."
     echo "  The environment variable OPENAI_API_KEY must also be defined."
     exit 1
 }
@@ -209,6 +209,9 @@ setup_defaults "${SRC_DIR}" "${DEFAULT_CLONE_DIR}"
 export INSTALL_DIR="$(remove_trailing_slash_if_needed ${INSTALL_DIR})"
 export CLONE_DIR="$(remove_trailing_slash_if_needed ${CLONE_DIR})"
 
+# List all configs, drop '.yaml', and then combine into one line.
+export CONFIG_OPTIONS=$(ls -1 "${CLONE_DIR}/configs/" | sed 's|\.yaml$||' | xargs)
+
 install_and_activate_venv_if_needed
 
 print_delimiter
@@ -219,10 +222,18 @@ if [[ -z "${ORIGIN_DIR}" ]]; then
     exit 0
 fi
 
+# Validate input.
 check_empty "${CONFIG_NAME}" "Argument <config_name>"
 check_empty "${ORIGIN_DIR}" "Argument <source_directory>"
 check_empty "${DEST_DIR}" "Argument <destination_directory>"
 check_empty "${OPENAI_API_KEY}" "Environment variable OPENAI_API_KEY"
+
+# OR with true so the script does not exit when grep does not match.
+CONFIG_NAME_MATCH=$(echo "${CONFIG_OPTIONS}" | grep "${CONFIG_NAME}" || true)
+if [[ -z "$CONFIG_NAME_MATCH" ]]; then
+    echo "Config name: ${CONFIG_NAME} is invalid."
+    usage
+fi
 
 # Define PYTHONPATH so unifree import works in Python.
 export PYTHONPATH="${CLONE_DIR}"
