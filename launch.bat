@@ -55,7 +55,7 @@ goto Start
             echo "Please install Git and try again."
             exit /b 1
         ) else (
-            echo "Installing Git ..."
+            echo "Installing Git..."
             winget install Git.Git
         )
     )
@@ -67,10 +67,9 @@ goto Start
 
         where winget >nul 2>&1
         if !errorlevel! neq 0 (
-            echo "Microsoft C++ Build Tools not found."
-            echo "Please install them and try again."
+            echo "Please install Microsoft C++ Build Tools and try again."
         ) else (
-            echo "Installing Microsoft C++ Build Tools ..."
+            echo "Installing Microsoft C++ Build Tools..."
             winget install Microsoft.VisualStudio.2022.BuildTools --override "--wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
         )
 
@@ -90,7 +89,7 @@ goto Start
             echo "Please install Python and try again."
             exit /b 1
         ) else (
-            echo "Installing Python ..."
+            echo "Installing Python..."
             winget install Python.Python.3.11
         )
     )
@@ -98,7 +97,7 @@ goto Start
     :: Check that pip is installed
     "%PYTHON_CMD%" -m ensurepip
     if !errorlevel! neq 0 (
-        echo "Installing pip ..."
+        echo "Installing pip..."
         "%PYTHON_CMD%" -m ensurepip --upgrade
     )
 
@@ -106,7 +105,7 @@ goto Start
 
 :Activate_Venv
     if "%USE_VENV%"=="true" (
-        echo "Creating and activating venv ..."
+        echo "Creating and activating venv..."
         "%PYTHON_CMD%" -m venv "%VENV_DIR%"
         call "%VENV_DIR%\Scripts\activate.bat"
     )
